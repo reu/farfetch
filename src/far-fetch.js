@@ -8,7 +8,6 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
 
   get: url => farFetch({ ...req, url, method: "GET" }),
   del: url => farFetch({ ...req, url, method: "DELETE" }),
-
   post: (url, body) => farFetch({ ...req, url, body, method: "POST" }),
   put:  (url, body) => farFetch({ ...req, url, body, method: "PUT" }),
 
@@ -20,8 +19,7 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
   then: (...args) => farFetch(req).end().then(...args),
   catch: (...args) => farFetch(req).end().catch(...args),
 
-  use: filter =>
-    farFetch({ ...req, filters: [...req.filters, filter] })
+  use: filter => farFetch({ ...req, filters: [...req.filters, filter] })
 });
 
 export default farFetch();
