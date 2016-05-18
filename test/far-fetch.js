@@ -45,6 +45,18 @@ describe("farFetch", () => {
     });
   });
 
+  describe("#patch", () => {
+    const payload = { sasha: "grey" };
+
+    beforeEach(() => nock(url).patch(path, payload).reply(204));
+
+    it("puts the payload", () => {
+      return farFetch
+        .patch(fullPath, JSON.stringify(payload))
+        .then(expectRequestWasDone);
+    });
+  });
+
   describe("#del", () => {
     beforeEach(() => nock(url).delete(path).reply(204));
 

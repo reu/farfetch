@@ -9,7 +9,8 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
   get: url => farFetch({ ...req, url, method: "GET" }),
   del: url => farFetch({ ...req, url, method: "DELETE" }),
   post: (url, body) => farFetch({ ...req, url, body, method: "POST" }),
-  put:  (url, body) => farFetch({ ...req, url, body, method: "PUT" }),
+  put: (url, body) => farFetch({ ...req, url, body, method: "PUT" }),
+  patch: (url, body) => farFetch({ ...req, url, body, method: "PATCH" }),
 
   set: (header, value) =>
     farFetch({ ...req, headers: { ...req.headers, [header]: value } }),
