@@ -1,6 +1,8 @@
 # Farfetch
 
-Pompous functional and fluent interface for the [Fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API), inspired by [SuperAgent](https://github.com/visionmedia/superagent).
+[![Build Status](https://travis-ci.org/reu/farfetch.png)](https://travis-ci.org/reu/farfetch)
+
+Pompous, functional, and fluent interface for the [Fetch API](https://developer.mozilla.org/en/docs/Web/API/Fetch_API), inspired by [SuperAgent](https://github.com/visionmedia/superagent).
 
 ## Install
 
