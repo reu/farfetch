@@ -72,16 +72,16 @@ farfetch
   .end();
 ```
 
-Note that as Farfetch never mutates the requests, we can freely reuse the _partial applied requests_.
+Note that as Farfetch never mutates the requests, so we can freely reuse the _partial applied_ requests.
 
 ```javascript
 import farFetch, { prefix } from "farfetch";
 
 const github = farfetch
   .use(prefix("https://api.github.com"))
-  .set("Authorization", "token 123mytoken")
+  .set("Authorization", "token 123mytoken");
 
-const user = github.get("/users/reu"").end();
+const user = github.get("/users/reu").end();
 const repo = github.get("/repos/reu/farfetch").end();
 ```
 
@@ -92,7 +92,7 @@ Delays a request for `time` milliseconds (aka poor man's throttle).
 ```javascript
 import farFetch, { delay } from "farfetch";
 
-// Delays the request by 5 seconds
+// Delays the request for 5 seconds
 farfetch
   .use(delay(5000))
   .get("http://example.org")
@@ -126,17 +126,15 @@ farFetch
 If a plugin needs to change how a request will be made, just redefine the `execute` function. For instance, this is how the [`delay`](https://github.com/reu/farfetch#delay) plugin works:
 
 ```javascript
-// First we define a function who provides a promise that resolves after a
-// specified time
+// First, let's we define a function who provides a promise that resolves after some time
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
-// Returns a new request that redefines the `execute` function, so now it
-// awaits before it sends the request
+// Returns a new request that redefines the `execute` function
 export const delay = time => req => ({
   // The original request
   ...req,
 
-  // A fresh new execute function
+  // A fresh new execute function that await some time before send the request
   execute: () => wait(time).then(req.execute)
 });
 ```
