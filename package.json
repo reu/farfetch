@@ -1,6 +1,6 @@
 {
   "name": "farfetch",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fluent API for window.fetch",
   "main": "dist/index.js",
   "scripts": {
