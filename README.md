@@ -119,7 +119,8 @@ const serializeJSON = req =>
 farFetch
   .use(contentType("application/json"))
   .use(serializeJSON)
-  .post("http://example.org/users", { actress: "Sasha" })
+  .post("http://example.org/users")
+  .send({ actress: "Sasha" })
   .end();
 ```
 

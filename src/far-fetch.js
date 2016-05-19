@@ -3,22 +3,21 @@ const makeRequest = ({ url, method, headers, body }) =>
 
 const runFilter = (req, filter) => filter(farFetch({ ...req }));
 
-const bodyless = (req, method) => url =>
-  farFetch({ ...req, url, method });
-
-const bodyful = (req, method) => (url, body) =>
-  farFetch({ ...req, url, body, method });
+const statusLine = (req, method) => url => farFetch({ ...req, url, method });
 
 const farFetch = (req = { filters: [], headers: {} }) => ({
   execute: () => makeRequest(req),
 
   ...req,
 
-  get: bodyless(req, "GET"),
-  del: bodyless(req, "DELETE"),
-  post: bodyful(req, "POST"),
-  put: bodyful(req, "PUT"),
-  patch: bodyful(req, "PATCH"),
+  get: statusLine(req, "GET"),
+  head: statusLine(req, "HEAD"),
+  delete: statusLine(req, "DELETE"),
+  post: statusLine(req, "POST"),
+  put: statusLine(req, "PUT"),
+  patch: statusLine(req, "PATCH"),
+
+  send: body => farFetch({ ...req, body }),
 
   set: (header, value) =>
     farFetch({ ...req, headers: { ...req.headers, [header]: value } }),

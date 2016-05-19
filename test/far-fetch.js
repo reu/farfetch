@@ -11,58 +11,25 @@ describe("farFetch", () => {
 
   afterEach(() => nock.cleanAll());
 
-  describe("#get", () => {
-    beforeEach(() => nock(url).get(path).reply(204));
+  ["get", "post", "put", "delete", "head"].forEach(method => {
+    describe(`#${method}`, () => {
+      beforeEach(() => nock(url)[method](path).reply(204));
 
-    it("fetches with the correct method", () => {
-      return farFetch
-        .get(fullPath)
-        .then(expectRequestWasDone);
+      it("fetches the correct url", () => {
+         return farFetch[method](fullPath).then(expectRequestWasDone);
+      });
     });
   });
 
-  describe("#post", () => {
+  describe("#send", () => {
     const payload = { sasha: "grey" };
 
     beforeEach(() => nock(url).post(path, payload).reply(204));
 
-    it("posts the payload", () => {
+    it("sends the payload on the request body", () => {
       return farFetch
-        .post(fullPath, JSON.stringify(payload))
-        .then(expectRequestWasDone);
-    });
-  });
-
-  describe("#put", () => {
-    const payload = { sasha: "grey" };
-
-    beforeEach(() => nock(url).put(path, payload).reply(204));
-
-    it("puts the payload", () => {
-      return farFetch
-        .put(fullPath, JSON.stringify(payload))
-        .then(expectRequestWasDone);
-    });
-  });
-
-  describe("#patch", () => {
-    const payload = { sasha: "grey" };
-
-    beforeEach(() => nock(url).patch(path, payload).reply(204));
-
-    it("puts the payload", () => {
-      return farFetch
-        .patch(fullPath, JSON.stringify(payload))
-        .then(expectRequestWasDone);
-    });
-  });
-
-  describe("#del", () => {
-    beforeEach(() => nock(url).delete(path).reply(204));
-
-    it("sends a delete request with the correct method", () => {
-      return farFetch
-        .del(fullPath)
+        .post(fullPath)
+        .send(JSON.stringify(payload))
         .then(expectRequestWasDone);
     });
   });
