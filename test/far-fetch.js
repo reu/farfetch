@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import nock from "nock";
-import farFetch, { prefix } from "../";
+import farFetch, { prefix } from "../src";
 
 describe("farFetch", () => {
   const url = "http://example.org";
