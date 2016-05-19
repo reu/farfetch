@@ -1,4 +1,4 @@
-const makeRequest = ({ url, method, headers, body }) =>
+const execute = ({ url, method, headers, body }) =>
   fetch(url, { method, headers, body });
 
 const runFilter = (req, filter) => filter(farFetch({ ...req }));
@@ -6,7 +6,7 @@ const runFilter = (req, filter) => filter(farFetch({ ...req }));
 const statusLine = (req, method) => url => farFetch({ ...req, url, method });
 
 const farFetch = (req = { filters: [], headers: {} }) => ({
-  execute: () => makeRequest(req),
+  execute,
 
   ...req,
 
@@ -22,7 +22,10 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
   set: (header, value) =>
     farFetch({ ...req, headers: { ...req.headers, [header]: value } }),
 
-  end: () => farFetch(req.filters.reduce(runFilter, req)).execute(),
+  end: () => {
+    const filteredReq = req.filters.reduce(runFilter, req);
+    return farFetch(filteredReq).execute(filteredReq);
+  },
 
   then: (...args) => farFetch(req).end().then(...args),
   catch: (...args) => farFetch(req).end().catch(...args),

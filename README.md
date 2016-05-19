@@ -124,18 +124,22 @@ farFetch
   .end();
 ```
 
-If a plugin needs to change how a request will be made, just redefine the `execute` function. For instance, this is how the [`delay`](https://github.com/reu/farfetch#delay) plugin works:
+If a plugin needs to change how a request will be made, it can redefines the internal `execute` function. For instance, this is how the [`delay`](https://github.com/reu/farfetch#delay) plugin works:
 
 ```javascript
-// First, let's we define a function who provides a promise that resolves after some time
+// First, let's define a function who provides a promise that resolves after some time
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
 // Returns a new request that redefines the `execute` function
-export const delay = time => req => ({
-  // The original request
-  ...req,
+export const delay = (time = 1000) => req => {
+  // The original execute function
+  const { execute } = req;
 
-  // A fresh new execute function that await some time before send the request
-  execute: () => wait(time).then(req.execute)
-});
+  return {
+    ...req,
+
+    // A fresh new execute function that awaits some time before calling the original `execute`
+    execute: req => wait(time).then(() => execute(req))
+  };
+};
 ```

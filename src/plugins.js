@@ -10,7 +10,11 @@ export const logger = (logger = console) => req => {
 
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
-export const delay = (time = 1000) => req => ({
-  ...req,
-  execute: () => wait(time).then(req.execute)
-});
+export const delay = (time = 1000) => req => {
+  const { execute } = req;
+
+  return {
+    ...req,
+    execute: req => wait(time).then(() => execute(req))
+  };
+};
