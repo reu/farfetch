@@ -4,6 +4,8 @@ const makeRequest = ({ url, method, headers, body }) =>
 const runFilter = (req, filter) => filter(farFetch({ ...req }));
 
 const farFetch = (req = { filters: [], headers: {} }) => ({
+  execute: () => makeRequest(req),
+
   ...req,
 
   get: url => farFetch({ ...req, url, method: "GET" }),
@@ -15,7 +17,7 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
   set: (header, value) =>
     farFetch({ ...req, headers: { ...req.headers, [header]: value } }),
 
-  end: () => makeRequest(req.filters.reduce(runFilter, req)),
+  end: () => farFetch(req.filters.reduce(runFilter, req)).execute(),
 
   then: (...args) => farFetch(req).end().then(...args),
   catch: (...args) => farFetch(req).end().catch(...args),
