@@ -1,2 +1,2 @@
-export { default } from "./far-fetch";
+export { default } from "./farfetch";
 export * from "./plugins";

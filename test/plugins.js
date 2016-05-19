@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import nock from "nock";
-import farFetch, { prefix, delay } from "../src";
+import farfetch, { prefix, delay } from "../src";
 
 describe("plugins", () => {
   const url = "http://example.org";
@@ -15,7 +15,7 @@ describe("plugins", () => {
     beforeEach(() => nock(url).get(path).reply(204));
 
     it("prefixes the request url", () => {
-      return farFetch
+      return farfetch
         .use(prefix(url))
         .get(path)
         .then(expectRequestWasDone);
@@ -28,7 +28,7 @@ describe("plugins", () => {
     it("delays the request", () => {
       const start = new Date;
 
-      return farFetch
+      return farfetch
         .use(delay(100))
         .get(fullPath)
         .then(res => expect(new Date - start).to.be.above(100))

@@ -11,9 +11,9 @@ Pompous, functional, and fluent interface for the [Fetch API](https://developer.
 ## Usage
 
 ```javascript
-import farFetch from "farfetch";
+import farfetch from "farfetch";
 
-farFetch
+farfetch
   .get("https://api.github.com/users/reu")
   .then(res => res.json())
   .then(console.log);
@@ -24,9 +24,9 @@ farFetch
 As [SuperAgent](https://github.com/visionmedia/superagent), Farfetch can be extended via plugins:
 
 ```javascript
-import farFetch, { logger, prefix } from "farfetch";
+import farfetch, { logger, prefix } from "farfetch";
 
-farFetch
+farfetch
   .use(prefix("https://api.github.com"))
   .use(logger())
   .get("/users/reu")
@@ -41,7 +41,7 @@ farFetch
 Just a simple request logger.
 
 ```javascript
-import farFetch, { logger } from "farfetch";
+import farfetch, { logger } from "farfetch";
 
 // This will log "GET http://example.org"
 farfetch
@@ -63,7 +63,7 @@ farfetch
 Adds a prefix to the URL. This is very useful to create API clients.
 
 ```javascript
-import farFetch, { prefix } from "farfetch";
+import farfetch, { prefix } from "farfetch";
 
 // This will issue a GET request to http://example.org/api/v1/test
 farfetch
@@ -75,7 +75,7 @@ farfetch
 Note that as Farfetch never mutates the requests, so we can freely reuse the _partial applied_ requests.
 
 ```javascript
-import farFetch, { prefix } from "farfetch";
+import farfetch, { prefix } from "farfetch";
 
 const github = farfetch
   .use(prefix("https://api.github.com"))
@@ -90,7 +90,7 @@ const repo = github.get("/repos/reu/farfetch").end();
 Delays a request for `time` milliseconds (aka poor man's throttle).
 
 ```javascript
-import farFetch, { delay } from "farfetch";
+import farfetch, { delay } from "farfetch";
 
 // Delays the request for 5 seconds
 farfetch
@@ -104,7 +104,7 @@ farfetch
 A plugin is just a function that receives a request and returns a new one:
 
 ```javascript
-import farFetch, { logger, prefix } from "farfetch";
+import farfetch, { logger, prefix } from "farfetch";
 
 const contentType = contentType => req =>
   req.method == "POST" || req.method == "PUT" ?
@@ -116,7 +116,7 @@ const serializeJSON = req =>
     { ...req, body: JSON.stringify(req.body) } :
     req;
 
-farFetch
+farfetch
   .use(contentType("application/json"))
   .use(serializeJSON)
   .post("http://example.org/users")

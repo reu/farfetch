@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import nock from "nock";
-import farFetch, { prefix } from "../src";
+import farfetch, { prefix } from "../src";
 
-describe("farFetch", () => {
+describe("farfetch", () => {
   const url = "http://example.org";
   const path = "/far/fetch";
   const fullPath = url + path;
@@ -16,7 +16,7 @@ describe("farFetch", () => {
       beforeEach(() => nock(url)[method](path).reply(204));
 
       it("fetches the correct url", () => {
-         return farFetch[method](fullPath).then(expectRequestWasDone);
+         return farfetch[method](fullPath).then(expectRequestWasDone);
       });
     });
   });
@@ -27,7 +27,7 @@ describe("farFetch", () => {
     beforeEach(() => nock(url).post(path, payload).reply(204));
 
     it("sends the payload on the request body", () => {
-      return farFetch
+      return farfetch
         .post(fullPath)
         .send(JSON.stringify(payload))
         .then(expectRequestWasDone);
@@ -38,7 +38,7 @@ describe("farFetch", () => {
     beforeEach(() => nock(url).get(path).reply(204));
 
     it("adds a filter that runs before the request", done => {
-      return farFetch.use(req => {
+      return farfetch.use(req => {
         done();
         return req;
       }).get(fullPath).end();
