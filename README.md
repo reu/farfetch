@@ -130,16 +130,12 @@ If a plugin needs to change how a request will be made, it can redefines the int
 // First, let's define a function who provides a promise that resolves after some time
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
 
-// Returns a new request that redefines the `execute` function
-export const delay = (time = 1000) => req => {
-  // The original execute function
-  const { execute } = req;
+// Plugins receives the original `execute` function as the second parameter
+export const delay = (time = 1000) => (req, execute) => ({
+  // Add all the properties of the original request
+  ...req,
 
-  return {
-    ...req,
-
-    // A fresh new execute function that awaits some time before calling the original `execute`
-    execute: req => wait(time).then(() => execute(req))
-  };
-};
+  // And defines a new execute function that awaits some time before calling the original `execute`
+  execute: req => wait(time).then(() => execute(req))
+});
 ```

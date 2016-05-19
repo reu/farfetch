@@ -1,13 +1,11 @@
 const execute = ({ url, method, headers, body }) =>
   fetch(url, { method, headers, body });
 
-const runFilter = (req, filter) => filter(farFetch({ ...req }));
+const runFilter = (req, filter) => filter(farFetch({ ...req }), req.execute);
 
 const statusLine = (req, method) => url => farFetch({ ...req, url, method });
 
-const farFetch = (req = { filters: [], headers: {} }) => ({
-  execute,
-
+const farFetch = (req = { execute, filters: [], headers: {} }) => ({
   ...req,
 
   get: statusLine(req, "GET"),
@@ -23,8 +21,8 @@ const farFetch = (req = { filters: [], headers: {} }) => ({
     farFetch({ ...req, headers: { ...req.headers, [header]: value } }),
 
   end: () => {
-    const filteredReq = req.filters.reduce(runFilter, req);
-    return farFetch(filteredReq).execute(filteredReq);
+    let { execute, ...filteredReq } = req.filters.reduce(runFilter, req);
+    return execute(filteredReq);
   },
 
   then: (...args) => farFetch(req).end().then(...args),
