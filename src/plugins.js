@@ -3,9 +3,22 @@ export const prefix = url => req =>
     { ...req, url: url + req.url } :
     req;
 
-export const logger = (logger = console) => req => {
-  logger.log("FarFetch", req.method, req.url);
+export const requestLogger = (logger = console) => req => {
+  logger.log(req.method, req.url);
   return req;
+};
+
+export const responseLogger = (logger = console) => (req, execute) => {
+  const start = new Date;
+
+  return {
+    ...req,
+    execute: req => execute(req)
+      .then(res => {
+        logger.log(req.method, req.url, res.status, `${new Date - start}ms`);
+        return res;
+      })
+  };
 };
 
 const wait = time => new Promise(resolve => setTimeout(resolve, time));
