@@ -11,7 +11,7 @@ describe("farfetch", () => {
 
   afterEach(() => nock.cleanAll());
 
-  ["get", "post", "put", "delete", "head"].forEach(method => {
+  ["get", "head", "post", "put", "patch", "delete"].forEach(method => {
     describe(`#${method}`, () => {
       beforeEach(() => nock(url)[method](path).reply(204));
 
