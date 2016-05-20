@@ -3,17 +3,15 @@ const execute = ({ url, method, headers, body }) =>
 
 const runFilter = (req, filter) => filter(farfetch({ ...req }), req.execute);
 
-const statusLine = (req, method) => url => farfetch({ ...req, url, method });
+const requestLine = (req, method) => url => farfetch({ ...req, url, method });
+const methods = req =>
+  ["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE"]
+    .map(method => ({ [method.toLowerCase()]: requestLine(req, method) }))
+    .reduce(Object.assign);
 
 const farfetch = (req = { execute, filters: [], headers: {} }) => ({
   ...req,
-
-  get: statusLine(req, "GET"),
-  head: statusLine(req, "HEAD"),
-  delete: statusLine(req, "DELETE"),
-  post: statusLine(req, "POST"),
-  put: statusLine(req, "PUT"),
-  patch: statusLine(req, "PATCH"),
+  ...methods(req),
 
   send: body => farfetch({ ...req, body }),
 
