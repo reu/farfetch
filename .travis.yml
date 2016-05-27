@@ -6,3 +6,15 @@ node_js:
   - "4"
   - "5"
   - "6"
+
+deploy:
+  provider: npm
+  email: rnavarro@rnavarro.com.br
+
+  api_key:
+    secure: D+kdKoMMxTGZab6JYvaTsIOJe/IYTyxV9YSEfMDFqTukcXi/2ueLX21Ig33WRP1cU4wDfsXqQXvbGF56z2mPHHGEghGXVDYIMBvIwbXxMISDciJJsGpY2IfClW93z/sDBh7P+8fN+SmPXLnE7ttaDp/bDT5gK7/F42/nZ3+IxV+ueAw1fgVG2YjEVTEjXoJ6BwCUak7+iBVRoHXjJZZsK2lWK8Z9ow/NhicOlbZrf3+FN042Wq1hgB2C8OyPPUI+SRtOLQh2nqHlmRP9ofD0aGFJuDWCNZKjFq0AVL8NnaSKCREd19iujZIVhl/GZ0t0IEzIY9dQlF4WHkPmfLBC7jrT4aWPDCcQpPRpXN9MT95VjAbXM0SKbkXqjw4PYkQkwOnZcHsTGBvSDhpnhsliXhfHfpj20XCV2rGRRydMnXxp7xGTkIv9zEO2EUyI3JrFsvT6YGCqpIt1hVvCvl9MedkUiRUOtg0P2VY2STEHqHdUz98m/A1vr8U8etZdylklPwszONnRyiHc0LodFNOrhI/CCuQXB78ZKWkMy2BqooGdV9lWfkqoNpuXzCXHxKjBo9LoX1tymG931eTuLFACB+JzHCbbaKyUUJCJ+DmBz8oChmp48TV37iVPRf/VtN/Z4p0VJ8qpzy/ZEZD7m4zfi5z2zcQDYyCdB5XAkMB3shM=
+
+  on:
+    tags: true
+    repo: reu/farfetch
+    branch: master
