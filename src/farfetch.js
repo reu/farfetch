@@ -1,5 +1,5 @@
-const execute = ({ url, method, headers, body }) =>
-  fetch(url, { method, headers, body });
+const execute = ({ url, method, headers, body, redirect = "follow" }) =>
+  fetch(url, { method, headers, body, redirect });
 
 const runFilter = (req, filter) => filter(farfetch({ ...req }), req.execute);
 
